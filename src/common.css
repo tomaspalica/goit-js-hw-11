@@ -83,12 +83,8 @@ margin: 0px;
             color: aliceblue;
     
 }
-.gallery__link{
-    
-}
-.gallery img:hover {
-    transform: scale(1.03);
-  }
+
+
   .gallery__link:hover {
     cursor: zoom-in;
   }
