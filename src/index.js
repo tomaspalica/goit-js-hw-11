@@ -40,7 +40,7 @@ gallery.innerHTML = ""
  fetchPictures()
  .then(imgs => {
     
-    console.log(imgs)
+    
     page += 1;
      renderImgList(imgs)
      lightBox.refresh()})
