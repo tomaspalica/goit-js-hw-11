@@ -9,6 +9,12 @@ const gallery = document.querySelector(".gallery")
 const loadMoreBtn = document.querySelector(".load-more")
 
 const API_KEY = "38123861-5044a45b99316196e4506c2b7";
+const lightBox = new SimpleLightbox(".gallery a", {
+  captionType: "alt",
+  captionsData: "alt",
+  captionPosition: "bottom",
+  captionDelay: 250,
+});
 
 let page = 1;
 
@@ -24,6 +30,7 @@ const fetchPictures = async () => {
 
 searchForm.addEventListener("submit", (e) => {
  e.preventDefault()
+ 
  if(searchInput.value === ""){
     Notiflix.Notify.failure("Fill in the input")
     return
@@ -35,9 +42,13 @@ gallery.innerHTML = ""
     
     console.log(imgs)
     page += 1;
-    return renderImgList(imgs)})
+     renderImgList(imgs)
+     lightBox.refresh()})
     .catch(error => console.error(error))
- loadMoreBtn.style["visibility"] = "visible"
+ 
+    loadMoreBtn.style["visibility"] = "visible"
+   
+  
 })
 loadMoreBtn.addEventListener("click", () => {
    
@@ -49,11 +60,14 @@ loadMoreBtn.addEventListener("click", () => {
     }
     console.log(imgs)
     page += 1;
-    return renderImgList(imgs)})
+     renderImgList(imgs)
+     lightBox.refresh()})
     .catch(error => console.error(error))
+   
 })
+
 function renderImgList(imgs) {
-    const markup = imgs.hits
+   const markup = imgs.hits
       .map((img) => {
         return `<div class="photo-card">
         <a class="gallery__link" href="${img.largeImageURL}">
@@ -78,9 +92,5 @@ function renderImgList(imgs) {
       .join("");
     gallery.insertAdjacentHTML("beforeend", markup);
   }
-  const lightBox = new SimpleLightbox(".gallery a", {
-    captionType: "alt",
-    captionsData: "alt",
-    captionPosition: "bottom",
-    captionDelay: 250,
-  });
+
+  
