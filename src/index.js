@@ -28,7 +28,7 @@ const fetchPictures = async () => {
     return imgs 
 }
 
-searchForm.addEventListener("submit", (e) => {
+searchForm.addEventListener("submit", async (e) => {
  e.preventDefault()
  
  if(searchInput.value === ""){
@@ -37,33 +37,36 @@ searchForm.addEventListener("submit", (e) => {
  }
  page= 1
 gallery.innerHTML = ""
- fetchPictures()
- .then(imgs => {
-    
-    
-    page += 1;
-     renderImgList(imgs)
-     lightBox.refresh()})
-    .catch(error => console.error(error))
+ try{
+ const imgs =  await fetchPictures()
+ const results = await renderImgList(imgs)
+ page += 1;
+ lightBox.refresh()
+}catch (error) {
+  console.error(error)
+}
+
  
     loadMoreBtn.style["visibility"] = "visible"
    
   
 })
-loadMoreBtn.addEventListener("click", () => {
+
+loadMoreBtn.addEventListener("click", async () => {
    
-    fetchPictures()
- .then(imgs => {
+  try {
+    const imgs = await fetchPictures()
     if(page > imgs.totalHits/40){
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
-        return
-    }
-    
-    page += 1;
-     renderImgList(imgs)
-     lightBox.refresh()})
-    .catch(error => console.error(error))
-   
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+      return
+  }
+  page += 1;
+  const results = await  renderImgList(imgs);
+  lightBox.refresh()
+  } catch (error) {
+    console.error(error)
+  }
+  
 })
 
 function renderImgList(imgs) {
