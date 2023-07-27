@@ -18,13 +18,14 @@ const lightBox = new SimpleLightbox(".gallery a", {
 
 let page = 1;
 
-
+searchInput.addEventListener("input", () => console.log(searchInput.value))
 const fetchPictures = async () => {
     const response = await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(searchInput.value)}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`)
     if(response.data.totalHits === 0){
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
        }
     const imgs = await response.data
+    console.log(imgs)
     return imgs 
 }
 
