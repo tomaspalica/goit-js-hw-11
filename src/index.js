@@ -25,7 +25,7 @@ const fetchPictures = async () => {
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
        }
     const imgs = await response.data
-    console.log(imgs)
+    console.log(response)
     return imgs 
 }
 
